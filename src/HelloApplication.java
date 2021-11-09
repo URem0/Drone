@@ -32,75 +32,57 @@ public class HelloApplication extends Application {
 
         Jauge jauge = new Jauge(750,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
         On on = new On("on.png",350,400,100,100,408,525,10);
+        Direction direction = new Direction("DIRECTION","ALTITUDE","drone1.png");
 
-        Text title = new Text(175,400,"DIRECTION");
-        Text title2 = new Text(575,400,"ALTITUDE");
-
-        Image direction = new Image("drone1.png");
-        Image altitude = new Image("drone1.png");
-
-        ImageView myDirection = new ImageView(direction);
-        ImageView myAltitude = new ImageView(altitude);
-
-        myDirection.setFitHeight(200);
-        myDirection.setFitWidth(200);
-
-        myAltitude.setFitHeight(200);
-        myAltitude.setFitWidth(200);
-
-        myDirection.relocate(100,200);
-        myAltitude.relocate(500,200);
-
-        pane.getChildren().add(title);
-        pane.getChildren().add(title2);
-        pane.getChildren().add(myDirection);
-        pane.getChildren().add(myAltitude);
+        pane.getChildren().add(direction.title);
+        pane.getChildren().add(direction.title2);
+        pane.getChildren().add(direction.myDirection);
+        pane.getChildren().add(direction.myAltitude);
         pane.getChildren().add(jauge.rectangle);
         pane.getChildren().add(jauge.rectangle1);
         pane.getChildren().add(on.button);
         pane.getChildren().add(on.circle);
 
-
         stage.setTitle("Dron'Ensea");
-        stage.getIcons().add(direction);
+        stage.getIcons().add(direction.direction);
         stage.setScene(scene);
         stage.show();
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                myDirection.relocate(100,200);
+                direction.myDirection.relocate(100,200);
                 switch (keyEvent.getCode()){
                     case Z -> {
-                        myDirection.relocate( myDirection.getLayoutX(), myDirection.getLayoutY()-50);
+                        direction.myDirection.relocate( direction.myDirection.getLayoutX(), direction.myDirection.getLayoutY()-50);
                         break;
                     }
                     case S -> {
-                        myDirection.relocate( myDirection.getLayoutX(), myDirection.getLayoutY()+50);
+                        direction.myDirection.relocate( direction.myDirection.getLayoutX(), direction.myDirection.getLayoutY()+50);
 
                         break;
                     }
                     case Q -> {
-                        myDirection.relocate( myDirection.getLayoutX()-50, myDirection.getLayoutY());
+                        direction.myDirection.relocate( direction.myDirection.getLayoutX()-50, direction.myDirection.getLayoutY());
                         break;
                     }
                     case D -> {
-                        myDirection.relocate( myDirection.getLayoutX()+50, myDirection.getLayoutY());
+                        direction.myDirection.relocate( direction.myDirection.getLayoutX()+50, direction.myDirection.getLayoutY());
                         break;
                     }
                     case W -> {
-                        myDirection.relocate( 100,200);
+                        direction.myDirection.relocate( 100,200);
                         break;
                     }
                     case O -> {
                         if (jauge.rectangle1.getHeight() < 150){
-                            myAltitude.relocate(500,myAltitude.getLayoutY()-10);
+                            direction.myAltitude.relocate(500,direction.myAltitude.getLayoutY()-10);
                             jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+10);}
                         break;
                     }
                     case L-> {
                         if (jauge.rectangle1.getHeight() > 0) {
-                            myAltitude.relocate(500, myAltitude.getLayoutY() + 10);
+                            direction.myAltitude.relocate(500, direction.myAltitude.getLayoutY() + 10);
                             jauge.rectangle1.setHeight(jauge.rectangle1.getHeight() - 10);
                         }
                         break;
