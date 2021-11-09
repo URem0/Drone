@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.ButtonBase;
 import javafx.util.Duration;
 import org.w3c.dom.css.Rect;
-
 import java.io.IOException;
 import java.util.Date;
 
@@ -29,20 +28,10 @@ public class HelloApplication extends Application {
         Group root = new Group();
         Pane pane = new Pane(root);
         Scene scene = new Scene( pane,800, 600);
-        scene.setFill(Color.LIGHTBLUE);
-
-
-        Button button = new Button();
-
-        Image icon = new Image("on.png");
-        ImageView myIcon = new ImageView(icon);
-        myIcon.setFitWidth(100);
-        myIcon.setFitHeight(100);
-
-        button.setGraphic(myIcon);
-        button.setStyle("-fx-fill: transparent");
+        pane.setStyle("-fx-background-color: lightblue;");
 
         Jauge jauge = new Jauge(750,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
+        On on = new On("on.png",350,400,100,100,408,525,10);
 
         Text title = new Text(175,400,"DIRECTION");
         Text title2 = new Text(575,400,"ALTITUDE");
@@ -52,7 +41,6 @@ public class HelloApplication extends Application {
 
         ImageView myDirection = new ImageView(direction);
         ImageView myAltitude = new ImageView(altitude);
-        button.relocate(350,400);
 
         myDirection.setFitHeight(200);
         myDirection.setFitWidth(200);
@@ -69,7 +57,8 @@ public class HelloApplication extends Application {
         pane.getChildren().add(myAltitude);
         pane.getChildren().add(jauge.rectangle);
         pane.getChildren().add(jauge.rectangle1);
-        pane.getChildren().add(button);
+        pane.getChildren().add(on.button);
+        pane.getChildren().add(on.circle);
 
 
         stage.setTitle("Dron'Ensea");
@@ -104,27 +93,35 @@ public class HelloApplication extends Application {
                         break;
                     }
                     case O -> {
-                        myAltitude.relocate(500,myAltitude.getLayoutY()-10);
-                        jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+10);
+                        if (jauge.rectangle1.getHeight() < 150){
+                            myAltitude.relocate(500,myAltitude.getLayoutY()-10);
+                            jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+10);}
                         break;
-
-
-
                     }
                     case L-> {
-                        myAltitude.relocate(500,myAltitude.getLayoutY()+10);
-                        jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()-10);
+                        if (jauge.rectangle1.getHeight() > 0) {
+                            myAltitude.relocate(500, myAltitude.getLayoutY() + 10);
+                            jauge.rectangle1.setHeight(jauge.rectangle1.getHeight() - 10);
+                        }
                         break;
-
                     }
                 }
             }
         });
-        button.setOnAction(new EventHandler<ActionEvent>() {
 
+        on.button.setOnAction(new EventHandler<ActionEvent>() {
+        int rep = 0;
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("Salut le monde !");
+                on.circle.setFill(Color.GREEN);
+                rep+=1;
+                if (rep%2==0){
+                    on.circle.setFill(Color.RED);
+                }else{
+                    on.circle.setFill(Color.GREEN);
+                }
+
             }
         });
     }
