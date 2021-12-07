@@ -22,12 +22,10 @@ public class On {
         circle.setFill(Color.RED);
         circle.setStyle("-fx-stroke: black; -fx-stroke-width: 2;");
 
-
         myIcon.setFitWidth(sizex);
         myIcon.setFitHeight(sizey);
         button.setGraphic(myIcon);
         button.setStyle("-fx-background-color: transparent;");
         button.relocate(x,y);
-
     }
 }
