@@ -38,14 +38,14 @@ public class HelloApplication extends Application {
         Tab tab2 = new Tab("Drone 2",pane2);
         pane.setStyle("-fx-background-color: lightblue;");
         TabPane tabPane = new TabPane(tab,tab2);
+        Scene scene = new Scene(tabPane,1000, 600);
 
-        Scene scene = new Scene(tabPane,800, 600);
-        Jauge jauge = new Jauge(750,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
-        On on = new On("on.png",350,400,100,100,408,525,10);
+        Jauge jauge = new Jauge(950,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
+        On on = new On("on.png",450,400,100,100,508,525,10);
         Direction direction = new Direction("DIRECTION","ALTITUDE","drone1.png");
 
-        Jauge jauge2 = new Jauge(750,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
-        On on2 = new On("on.png",350,400,100,100,408,525,10);
+        Jauge jauge2 = new Jauge(950,250,743,101,180,751,251,"-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;",152,10,0,8,Color.RED);
+        On on2 = new On("on.png",450,400,100,100,508,525,10);
         Direction direction2 = new Direction("DIRECTION","ALTITUDE","drone1.png");
 
 
@@ -72,6 +72,7 @@ public class HelloApplication extends Application {
         stage.getIcons().add(direction.direction);
         stage.setScene(scene);
         stage.show();
+
 
         final int[] i = {1};
 
@@ -101,6 +102,7 @@ public class HelloApplication extends Application {
             public void handle(KeyEvent keyEvent) {
                 transmission.getSp().openPort();
                 direction.myDirection.relocate(100,200);
+                direction2.myDirection.relocate(100,200);
                 switch (keyEvent.getCode()){
                     case Z -> {
                         if (i[0]==1){
@@ -156,13 +158,13 @@ public class HelloApplication extends Application {
                     case O -> {
                         if (i[0]==1){
                             if (jauge.rectangle1.getHeight() < 150){
-                                direction.myAltitude.relocate(500,direction.myAltitude.getLayoutY()-10);
+                                direction.myAltitude.relocate(700,direction.myAltitude.getLayoutY()-10);
                                 jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+10);
                                 System.out.println("Monte Drone 1");
                                 Transmission.envoie(5);}}
                         if (i[0]==2){
                             if (jauge2.rectangle1.getHeight() < 150){
-                                direction2.myAltitude.relocate(500,direction2.myAltitude.getLayoutY()-10);
+                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()-10);
                                 jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()+10);
                                 System.out.println("Monte Drone 2");
                                 Transmission.envoie(5);}}
@@ -171,13 +173,13 @@ public class HelloApplication extends Application {
                     case L-> {
                         if (i[0]==1){
                             if (jauge.rectangle1.getHeight() > 0) {
-                                direction.myAltitude.relocate(500, direction.myAltitude.getLayoutY() + 10);
+                                direction.myAltitude.relocate(700, direction.myAltitude.getLayoutY() + 10);
                                 jauge.rectangle1.setHeight(jauge.rectangle1.getHeight() - 10);
                                 System.out.println("Descend Drone 1");
                                 Transmission.envoie(6);}}
                         if (i[0]==2){
                             if (jauge2.rectangle1.getHeight() < 150){
-                                direction2.myAltitude.relocate(500,direction2.myAltitude.getLayoutY()-10);
+                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()-10);
                                 jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()+10);
                                 System.out.println("Descend Drone 2");
                                 Transmission.envoie(5);}}
@@ -193,7 +195,7 @@ public class HelloApplication extends Application {
             public void handle(ActionEvent actionEvent) {
 
                     direction.myDirection.relocate(100,200);
-                    direction.myAltitude.relocate(500,200);
+                    direction.myAltitude.relocate(700,200);
                     jauge.rectangle1.setHeight(0);
                     System.out.println("Salut le monde !");
                     on.circle.setFill(Color.GREEN);
@@ -218,7 +220,7 @@ public class HelloApplication extends Application {
             public void handle(ActionEvent actionEvent) {
 
                     direction2.myDirection.relocate(100,200);
-                    direction2.myAltitude.relocate(500,200);
+                    direction2.myAltitude.relocate(700,200);
                     jauge2.rectangle1.setHeight(0);
                     System.out.println("Salut le monde !");
                     on2.circle.setFill(Color.GREEN);
@@ -239,5 +241,6 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+
     }
 }

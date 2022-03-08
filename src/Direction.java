@@ -12,7 +12,7 @@ public class Direction {
 
     public Direction(String title,String title2, String filename){
         this.title = new Text(175,400,title);
-        this.title2 = new Text(575,400,title2);
+        this.title2 = new Text(775,400,title2);
         this.direction= new Image(filename);
         this.altitude=new Image(filename);
         this.myDirection=new ImageView(direction);
@@ -25,7 +25,7 @@ public class Direction {
         myAltitude.setFitWidth(200);
 
         myDirection.relocate(100,200);
-        myAltitude.relocate(500,200);
+        myAltitude.relocate(700,200);
 
     }
 

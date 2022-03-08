@@ -12,7 +12,7 @@ public class Jauge extends Rectangle {
         rectangle= new Rectangle();
         rectangle1=new Rectangle();
         rotate.setAngle(180);
-        rotate.setPivotX(751);
+        rotate.setPivotX(851);
         rotate.setPivotY(251);
 
 
