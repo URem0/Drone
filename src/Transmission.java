@@ -12,15 +12,18 @@ public class Transmission {
         sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
     }
 
+    public static SerialPort getSp() {
+        return sp;
+    }
 
     public static void envoie(int b){
-        sp.openPort();
+
         for (Integer i = 0; i < 4; ++i) {
             try {
                 System.out.println("Envoie");
                 sp.getOutputStream().write(b);
                 sp.getOutputStream().flush();
-                Thread.sleep(700);
+                Thread.sleep(600);
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
