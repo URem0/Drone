@@ -23,7 +23,11 @@ import javafx.scene.control.ButtonBase;
 import javafx.util.Duration;
 import org.w3c.dom.css.Rect;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import com.fazecast.jSerialComm.*;
 
 public class HelloApplication extends Application {
@@ -73,6 +77,8 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+        ThyoneI thyoneI = new ThyoneI();
+        byte[] payl = "server".getBytes(StandardCharsets.US_ASCII);
 
         final int[] i = {1};
 
@@ -179,8 +185,8 @@ public class HelloApplication extends Application {
                                 Transmission.envoie(6);}}
                         if (i[0]==2){
                             if (jauge2.rectangle1.getHeight() < 150){
-                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()-10);
-                                jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()+10);
+                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()+10);
+                                jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()-10);
                                 System.out.println("Descend Drone 2");
                                 Transmission.envoie(5);}}
                         break;
@@ -208,6 +214,7 @@ public class HelloApplication extends Application {
                         on.circle.setFill(Color.GREEN);
                         Transmission.envoie(8);
                         System.out.println("OFF");
+                        thyoneI.ThyoneI_TransmitBroadcast(payl, 6);
                     }
 
 

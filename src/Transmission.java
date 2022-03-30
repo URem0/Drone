@@ -7,7 +7,7 @@ public class Transmission {
 
 
     public Transmission(){
-        sp = SerialPort.getCommPort("COM4"); // device name TODO: must be changed
+        sp = SerialPort.getCommPort("COM5"); // device name TODO: must be changed
         sp.setComPortParameters(9600, 8, 1, 0); // default connection settings for Arduino
         sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
     }
@@ -17,6 +17,10 @@ public class Transmission {
     }
 
     public static void envoie(int b){
+
+        if (sp.isOpen()){
+            System.out.println("Marche");
+        }
 
         for (Integer i = 0; i < 4; ++i) {
             try {
