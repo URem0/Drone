@@ -55,6 +55,25 @@ public class HelloApplication extends Application {
         On on2 = new On("on.png",450,400,100,100,508,525,10);
         Direction direction2 = new Direction("DIRECTION","ALTITUDE","drone1.png");
 
+        Circle circle = new Circle();
+        circle.setCenterX(200);
+        circle.setCenterY(300);
+        circle.setRadius(70.0f);
+        circle.setStyle("-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;");
+
+        Circle circle2 = new Circle();
+        circle2.setCenterX(200);
+        circle2.setCenterY(300);
+        circle2.setRadius(180);
+        circle2.setStyle("-fx-fill: transparent; -fx-stroke: black; -fx-stroke-width: 2;");
+
+        //Line line = new Line();
+        //line.setStartX(200);
+        //line.setStartY(300);
+
+
+
+
         byte[] data = new byte[5];
         ThyoneI thyoneI = new ThyoneI();
         thyoneI.getSerialNumber(data);
@@ -65,7 +84,7 @@ public class HelloApplication extends Application {
 
         thyoneI.THYONEI_receiveBytes();
 
-        Ordre ordre=new Ordre();
+        Ordre ordre =new Ordre();
 
 
         pane.getChildren().add(direction.title);
@@ -76,6 +95,9 @@ public class HelloApplication extends Application {
         pane.getChildren().add(jauge.rectangle1);
         pane.getChildren().add(on.button);
         pane.getChildren().add(on.circle);
+        pane.getChildren().add(circle);
+        pane.getChildren().add(circle2);
+        //pane.getChildren().add(line);
 
         pane2.getChildren().add(direction2.title);
         pane2.getChildren().add(direction2.title2);
@@ -98,6 +120,20 @@ public class HelloApplication extends Application {
             public void handle(WindowEvent t) {
                 Platform.exit();
                 System.exit(0);
+            }
+        });
+
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event) {
+                //if (event.getSceneX()*event.getSceneX() + event.getSceneY()*event.getSceneY() < 180 )&& (event.getSceneX()*event.getSceneX() + event.getSceneY()*event.getSceneY() > 110 ){
+                System.out.println(event.getSceneX());
+                System.out.println(event.getSceneY());
+                //line.setEndX(event.getSceneX());
+                //line.setEndY(event.getSceneY()-15);
+                //System.out.println(line.getEndX());
+                //System.out.println(line.getEndY());
             }
         });
 
@@ -134,13 +170,16 @@ public class HelloApplication extends Application {
                     case Z -> {
                         if (i[0]==1){
                             direction.myDirection.relocate( direction.myDirection.getLayoutX(), direction.myDirection.getLayoutY()-50);
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
                             System.out.println("Avance Drone 1");
-                            //Transmission.envoie(1);
+                            ordre.setVit_lat(ordre.getVit_lat()+3);
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                            System.out.println(ordre.getVit_lat());
                             }
                         if (i[0]==2){
                             direction2.myDirection.relocate( direction2.myDirection.getLayoutX(), direction2.myDirection.getLayoutY()-50);
                             System.out.println("Avance Drone 2");
-                            //Transmission.envoie(1);
+
                         }
                         break;
                     }
@@ -148,12 +187,15 @@ public class HelloApplication extends Application {
                         if (i[0]==1){
                             direction.myDirection.relocate( direction.myDirection.getLayoutX(), direction.myDirection.getLayoutY()+50);
                             System.out.println("Recule Drone 1");
-                            //Transmission.envoie(2);
+                            ordre.setVit_lat(ordre.getVit_lat()-3);
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                            System.out.println(ordre.getVit_lat());
+
                             }
                         if (i[0]==2){
                             direction2.myDirection.relocate( direction2.myDirection.getLayoutX(), direction2.myDirection.getLayoutY()+50);
                             System.out.println("Recule Drone 2");
-                            //Transmission.envoie(2);
+
                         }
                         break;
                     }
@@ -161,12 +203,19 @@ public class HelloApplication extends Application {
                         if (i[0]==1){
                             direction.myDirection.relocate( direction.myDirection.getLayoutX()-50, direction.myDirection.getLayoutY());
                             System.out.println("Gauche Drone 1");
-                            //Transmission.envoie(3);
+                            if (ordre.getAngle()<=0){
+                                ordre.setAngle(ordre.getAngle()+360-5);
+
+                            }else{
+                            ordre.setAngle(ordre.getAngle()-5);}
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                            System.out.println(ordre.getAngle());
+
                         }
                         if (i[0]==2){
                             direction2.myDirection.relocate( direction2.myDirection.getLayoutX()-50, direction2.myDirection.getLayoutY());
                             System.out.println("Gauche Drone 2");
-                            //Transmission.envoie(3);
+
                             }
                         break;
                     }
@@ -174,18 +223,31 @@ public class HelloApplication extends Application {
                         if (i[0]==1){
                             direction.myDirection.relocate( direction.myDirection.getLayoutX()+50, direction.myDirection.getLayoutY());
                             System.out.println("Droite Drone 1");
-                            //Transmission.envoie(4);
+                            if (ordre.getAngle()>=360){
+                                ordre.setAngle(0);
+
+                            }else{
+                            ordre.setAngle(ordre.getAngle()+5);}
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                            System.out.println(ordre.getAngle());
+
                         }
                         if (i[0]==2){
                             direction2.myDirection.relocate( direction2.myDirection.getLayoutX()+50, direction2.myDirection.getLayoutY());
                             System.out.println("Droite Drone 2");
-                            //Transmission.envoie(4);
+
                         }
                         break;
                     }
                     case W -> {
                         if (i[0]==1){
-                            direction.myDirection.relocate( 100,200);}
+                            direction.myDirection.relocate( 100,200);
+                            ordre.setVit_lat(0);
+                            ordre.setVit_vert(1000);
+                            ordre.setAngle(0);
+                            thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                            jauge.rectangle1.setHeight(0);
+                        }
                         if (i[0]==2){
                             direction2.myDirection.relocate( 100,200);}
                         break;
@@ -194,19 +256,23 @@ public class HelloApplication extends Application {
                         if (i[0]==1){
                             if (jauge.rectangle1.getHeight() < 150){
                                 direction.myAltitude.relocate(700,direction.myAltitude.getLayoutY()-10);
-                                jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+10);
+                                jauge.rectangle1.setHeight(jauge.rectangle1.getHeight()+2);
                                 System.out.println("Monte Drone 1");
                                 System.out.println(thyoneI.src);
-                                thyoneI.ThyoneI_TransmitUnicast(ordre.up,ordre.taille(ordre.up));
-                                //Transmission.envoie(5);
+                                if (ordre.getVit_vert()<2000){
+
+                                    ordre.setVit_vert(ordre.getVit_vert()+10);
+
+                                    thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                                    System.out.println(ordre.getVit_vert());
+                                }
+
                             }}
                         if (i[0]==2){
                             if (jauge2.rectangle1.getHeight() < 150){
-                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()-10);
+                                direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()-5);
                                 jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()+10);
                                 System.out.println("Monte Drone 2");
-
-                                //Transmission.envoie(5);
                             }}
                         break;
                     }
@@ -214,17 +280,21 @@ public class HelloApplication extends Application {
                         if (i[0]==1){
                             if (jauge.rectangle1.getHeight() > 0) {
                                 direction.myAltitude.relocate(700, direction.myAltitude.getLayoutY() + 10);
-                                jauge.rectangle1.setHeight(jauge.rectangle1.getHeight() - 10);
+                                jauge.rectangle1.setHeight(jauge.rectangle1.getHeight() - 2);
                                 System.out.println("Descend Drone 1");
-                                thyoneI.ThyoneI_TransmitUnicast(ordre.down,ordre.taille(ordre.down));
-                                //Transmission.envoie(6);
+                                if (ordre.getVit_vert()>1000){
+                                ordre.setVit_vert(ordre.getVit_vert()-10);
+                                thyoneI.ThyoneI_TransmitUnicast(ordre.build_payload(),ordre.taille(ordre.build_payload()));
+                                System.out.println(ordre.getVit_vert());
+                                }
+
                             }}
                         if (i[0]==2){
                             if (jauge2.rectangle1.getHeight() < 150){
                                 direction2.myAltitude.relocate(700,direction2.myAltitude.getLayoutY()+10);
-                                jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()-10);
+                                jauge2.rectangle1.setHeight(jauge2.rectangle1.getHeight()-5);
                                 System.out.println("Descend Drone 2");
-                                //Transmission.envoie(5);
+
                             }}
                         break;
                         }
